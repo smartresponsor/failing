@@ -21,7 +21,7 @@ Create one consumer-agnostic platform mechanism for declaring public failures an
 
 - [ ] migrate one narrow Cruding failure slice;
 - [ ] migrate one Billing operation;
-- [ ] migrate one Paying operation;
+- [x] migrate one Paying operation;
 - [ ] verify the same Failing contracts need no consumer-specific branch;
 - [ ] decide whether an explicit transport-independent failure category has proven value.
 
