@@ -55,6 +55,23 @@ Expected migration boundary:
 
 No mutation was performed because the Billing worktree contains substantial parallel active changes.
 
+## Searching — implemented direct-controller pilot
+
+Observed current implementation:
+
+- SearchIndexApiController emits the stable public code `search_index_not_found` with HTTP 404;
+- the same failure occurs in both PATCH and DELETE for `/api/search/index/{token}`;
+- no shared problem/exception layer previously owned this contract.
+
+Calibration implementation:
+
+- SearchFailureProvider preserves `search_index_not_found` as consumer-owned vocabulary;
+- SearchOperationFailureInventoryProvider declares PATCH and DELETE operation membership;
+- shared OperationFailureInventory derives deterministic `METHOD + path + failure code + HTTP status` evidence;
+- the existing controller response behavior remains unchanged.
+
+Validation: 184 tests / 1180 assertions pass, PHPStan reports no errors, CS check passes, and Gating reports 0 failures/warnings.
+
 ## Calibration finding
 
 The first real consumer does not require a custom FailureCategory abstraction.
@@ -62,3 +79,5 @@ The first real consumer does not require a custom FailureCategory abstraction.
 A direct standard HTTP status in FailureDefinitionDTO is sufficient for deterministic runtime inventory. A transport-independent semantic category remains deferred until multiple consumers demonstrate a concrete need.
 
 The second calibration candidate exposed a vocabulary-boundary correction: Failing must not require dotted failure codes. Existing consumers already use stable hyphenated and underscored public codes. FailureCode therefore validates only a safe lower-case machine-token envelope while preserving the consumer-owned spelling.
+
+Across Paying, Cruding, and Searching, the same central Failing contracts now cover outcome-driven, exception-driven, and direct-controller failures without a consumer-specific branch in Failing. This closes the initial cross-consumer architecture calibration criterion.
