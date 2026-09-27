@@ -1,0 +1,28 @@
+{
+  "name": "failing/failure",
+  "description": "Consumer-agnostic failure contract, runtime inventory, and RFC 9457 integration for Symfony applications.",
+  "type": "library",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "require": {
+    "php": "^8.4",
+    "symfony/event-dispatcher": "^8.1",
+    "symfony/http-foundation": "^8.1",
+    "symfony/http-kernel": "^8.1"
+  },
+  "autoload": {"psr-4": {"App\\Failing\\": "src/"}},
+  "autoload-dev": {"psr-4": {"App\\Failing\\Tests\\": "tests/"}},
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "phpstan/phpstan": "^2.0",
+    "phpunit/phpunit": "^12.0"
+  },
+  "scripts": {
+    "guard:architecture": ["@php tools/guard/failing-anti-wheel-guard.php"],
+    "cs:check": "@php vendor/bin/php-cs-fixer fix --dry-run --diff",
+    "cs:fix": "@php vendor/bin/php-cs-fixer fix",
+    "test": "phpunit",
+    "phpstan": "@php vendor/bin/phpstan analyse src tests --level=max",
+    "check:failing": ["@guard:architecture", "@cs:check", "@phpstan", "@test"]
+  },
+  "config": {"sort-packages": true}
+}
