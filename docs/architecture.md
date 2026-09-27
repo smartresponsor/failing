@@ -24,6 +24,7 @@ Failing must not enumerate Billing, Shipping, Paying, Ordering, Cruding, or any 
 - FailureExceptionSubscriber is a thin Symfony kernel.exception adapter and does not replace Symfony error handling.
 - OperationFailureInventoryDTO declares which failure codes belong to one METHOD + path operation.
 - OperationFailureInventory derives deterministic METHOD + path + failure code + HTTP status evidence for later OpenAPI parity.
+- OperationFailureInventoryExporter publishes that evidence as a versioned, deterministically sorted machine-readable contract for Gating and other external consumers.
 
 ## Deliberate omission: FailureCategory
 
