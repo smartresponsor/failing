@@ -22,21 +22,22 @@ Result: no Paying-specific branch was added to Failing.
 
 The existing Paying response payload is intentionally unchanged in this pilot. Rendering migration is a separate compatibility step.
 
-## Cruding — read-only calibration candidate
+## Cruding — implemented exception-driven pilot
 
 Observed current implementation:
 
 - CrudApiExceptionSubscriber owns Symfony exception interception;
 - CrudApiProblemResponseFactory owns local Problem Details rendering;
-- explicit mappings include bad request, forbidden, not found, validation failure, generic HttpException status, and internal error.
+- the stable not-found contract already exposes code `crud_not_found`, type `urn:cruding:problem:crud_not_found`, and HTTP 404.
 
-Expected migration boundary:
+Calibration implementation:
 
-- Cruding keeps concrete CRUD failure vocabulary and grammar-backed operation membership;
-- Failing supplies declaration/registry/inventory/rendering mechanism;
-- generic Failing must not expand Crud route grammar itself.
+- consumer-owned code and type are preserved without renaming;
+- CrudFailureProvider maps Symfony NotFoundHttpException to FailureDefinitionDTO;
+- shared FailureRegistry and FailureResolver resolve the declaration without Cruding-specific branches in Failing;
+- a regression test verifies that the declaration matches the existing CrudApiProblemResponseFactory output exactly.
 
-No mutation was performed because the Cruding worktree contains parallel active changes.
+The current CrudApiExceptionSubscriber and CrudApiProblemResponseFactory remain behaviorally unchanged. Grammar-backed operation membership remains deferred because generic Failing must not expand Cruding route grammar itself.
 
 ## Billing — read-only calibration candidate
 
