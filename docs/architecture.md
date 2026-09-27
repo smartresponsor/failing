@@ -14,7 +14,7 @@ Failing must not enumerate Billing, Shipping, Paying, Ordering, Cruding, or any 
 
 ## Core objects
 
-- FailureCode validates stable dotted machine identifiers.
+- FailureCode validates only a safe lower-case machine-token envelope; the consumer owns whether its stable vocabulary uses dots, underscores, or hyphens.
 - FailureType carries the RFC 9457 problem type URI-reference.
 - FailureDefinitionDTO is immutable declaration data: code, type, standard HTTP status, title, optional exception mapping.
 - FailureProviderInterface is implemented by consumers to supply declarations.

@@ -7,7 +7,7 @@ Failing standardizes contracts; it does not reimplement framework or protocol ma
 ## Owned here
 
 - immutable failure declaration shape;
-- stable consumer failure-code grammar;
+- a minimal safe machine-token envelope for consumer-owned failure codes;
 - provider aggregation and duplicate detection;
 - declared exception-to-failure lookup;
 - operation-to-failure membership;

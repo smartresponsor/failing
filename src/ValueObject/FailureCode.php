@@ -11,9 +11,9 @@ final readonly class FailureCode
 {
     public function __construct(public string $value)
     {
-        if (1 !== preg_match('/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)+$/', $value)) {
+        if (1 !== preg_match('/^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/', $value)) {
             throw new \InvalidArgumentException(
-                'Failure code must use dotted lower-case subject vocabulary, e.g. billing.invoice_not_found.',
+                'Failure code must be a stable lower-case machine token using letters, digits, dot, underscore, or hyphen.',
             );
         }
     }

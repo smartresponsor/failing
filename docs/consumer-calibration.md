@@ -11,7 +11,7 @@ Current real surface:
 
 Calibration implementation:
 
-- consumer-owned code: payment.payment_not_found
+- consumer-owned code: payment-not-found
 - consumer-owned type: urn:paying:problem:payment-not-found
 - shared DTO: FailureDefinitionDTO
 - shared runtime index: FailureRegistry
@@ -59,3 +59,5 @@ No mutation was performed because the Billing worktree contains substantial para
 The first real consumer does not require a custom FailureCategory abstraction.
 
 A direct standard HTTP status in FailureDefinitionDTO is sufficient for deterministic runtime inventory. A transport-independent semantic category remains deferred until multiple consumers demonstrate a concrete need.
+
+The second calibration candidate exposed a vocabulary-boundary correction: Failing must not require dotted failure codes. Existing consumers already use stable hyphenated and underscored public codes. FailureCode therefore validates only a safe lower-case machine-token envelope while preserving the consumer-owned spelling.
