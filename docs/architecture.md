@@ -22,9 +22,9 @@ Failing must not enumerate Billing, Shipping, Paying, Ordering, Cruding, or any 
 - FailureResolver resolves only declared exception mappings.
 - FailureProblemResponseRenderer renders an already-resolved declaration as RFC 9457 application/problem+json.
 - FailureExceptionSubscriber is a thin Symfony kernel.exception adapter and does not replace Symfony error handling.
-- OperationFailureInventoryDTO declares which failure codes belong to one METHOD + path operation.
+- OperationFailureInventoryDTO declares which failure codes belong to one METHOD + path operation and whether that membership is complete; completeness defaults to false.
 - OperationFailureInventory derives deterministic METHOD + path + failure code + HTTP status evidence for later OpenAPI parity.
-- OperationFailureInventoryExporter publishes that evidence as a versioned, deterministically sorted machine-readable contract for Gating and other external consumers.
+- OperationFailureInventoryExporter publishes schema v2 with both failure rows and independent operation coverage, so a complete operation with zero failures is still machine-visible.
 
 ## Deliberate omission: FailureCategory
 

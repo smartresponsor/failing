@@ -28,6 +28,7 @@ Create one consumer-agnostic platform mechanism for declaring public failures an
 ## Phase 3 - API contract evidence
 
 - [x] expose canonical inventory evidence;
+- [x] distinguish partial from complete operation failure coverage;
 - [x] define exact treatment of shared security failures;
 - [x] define exact treatment of framework-generated failures;
 - [x] define exact-code versus OpenAPI default/range response semantics;

@@ -51,6 +51,14 @@ final class OperationFailureInventoryExporterTest extends TestCase
                     'GET',
                     '/api/v1/resources/{id}',
                     [new FailureCode('resource_missing')],
+                    true,
+                );
+
+                yield new OperationFailureInventoryDTO(
+                    'DELETE',
+                    '/api/v1/resources/{id}/archive',
+                    [],
+                    true,
                 );
             }
         };
@@ -60,19 +68,38 @@ final class OperationFailureInventoryExporterTest extends TestCase
         $exporter = new OperationFailureInventoryExporter($inventory);
 
         self::assertSame([
-            'schemaVersion' => 1,
+            'schemaVersion' => 2,
+            'coverage' => [
+                [
+                    'method' => 'POST',
+                    'path' => '/api/v1/resources',
+                    'complete' => false,
+                ],
+                [
+                    'method' => 'GET',
+                    'path' => '/api/v1/resources/{id}',
+                    'complete' => true,
+                ],
+                [
+                    'method' => 'DELETE',
+                    'path' => '/api/v1/resources/{id}/archive',
+                    'complete' => true,
+                ],
+            ],
             'operations' => [
                 [
                     'method' => 'POST',
                     'path' => '/api/v1/resources',
                     'code' => 'invalid_request',
                     'status' => 400,
+                    'complete' => false,
                 ],
                 [
                     'method' => 'GET',
                     'path' => '/api/v1/resources/{id}',
                     'code' => 'resource_missing',
                     'status' => 404,
+                    'complete' => true,
                 ],
             ],
         ], $exporter->export());

@@ -16,6 +16,7 @@ final readonly class OperationFailureInventoryDTO
         public string $method,
         public string $path,
         public array $failures,
+        public bool $complete = false,
     ) {
         if ($method !== strtoupper($method) || 1 !== preg_match('/^[A-Z]+$/', $method)) {
             throw new \InvalidArgumentException('Operation method must be an uppercase HTTP token.');

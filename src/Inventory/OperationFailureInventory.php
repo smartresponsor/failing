@@ -33,6 +33,26 @@ final class OperationFailureInventory
         }
     }
 
+    /** @return list<array{method:string,path:string,complete:bool}> */
+    public function coverage(): array
+    {
+        $coverage = [];
+        foreach ($this->operations as $operation) {
+            $coverage[] = [
+                'method' => $operation->method,
+                'path' => $operation->path,
+                'complete' => $operation->complete,
+            ];
+        }
+
+        usort(
+            $coverage,
+            static fn(array $left, array $right): int => [$left['path'], $left['method']] <=> [$right['path'], $right['method']],
+        );
+
+        return $coverage;
+    }
+
     /** @return list<array{method:string,path:string,code:string,status:int}> */
     public function evidence(): array
     {

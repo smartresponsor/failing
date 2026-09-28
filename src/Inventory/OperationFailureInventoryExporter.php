@@ -9,19 +9,31 @@ namespace App\Failing\Inventory;
  */
 final readonly class OperationFailureInventoryExporter
 {
-    public const int SCHEMA_VERSION = 1;
+    public const int SCHEMA_VERSION = 2;
 
     public function __construct(private OperationFailureInventory $inventory) {}
 
     /**
      * @return array{
      *     schemaVersion: int,
-     *     operations: list<array{method:string,path:string,code:string,status:int}>
+     *     coverage: list<array{method:string,path:string,complete:bool}>,
+     *     operations: list<array{method:string,path:string,code:string,status:int,complete:bool}>
      * }
      */
     public function export(): array
     {
-        $operations = $this->inventory->evidence();
+        $coverage = $this->inventory->coverage();
+        $coverageByOperation = [];
+        foreach ($coverage as $operationCoverage) {
+            $coverageByOperation[$operationCoverage['method'] . ' ' . $operationCoverage['path']] = $operationCoverage['complete'];
+        }
+
+        $operations = array_map(
+            static fn(array $operation): array => $operation + [
+                'complete' => $coverageByOperation[$operation['method'] . ' ' . $operation['path']] ?? false,
+            ],
+            $this->inventory->evidence(),
+        );
 
         usort(
             $operations,
@@ -40,6 +52,7 @@ final readonly class OperationFailureInventoryExporter
 
         return [
             'schemaVersion' => self::SCHEMA_VERSION,
+            'coverage' => $coverage,
             'operations' => $operations,
         ];
     }
