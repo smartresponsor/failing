@@ -1,0 +1,4 @@
+framework:
+    secret: '%env(default::APP_SECRET)%'
+    test: true
+

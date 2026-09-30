@@ -10,7 +10,7 @@ Failing must not automatically attach shared HTTP failures to every operation.
 
 Authentication and authorization failures such as 401 and 403 enter operation inventory only when an owning security/API integration can determine their applicability for a concrete operation.
 
-The integration may implement the same FailureProviderInterface and OperationFailureInventoryProviderInterface contracts used by business consumers.
+The integration may implement the same FailureProviderInterface and FailureOperationInventoryProviderInterface contracts used by business consumers.
 
 Failing itself does not inspect firewall configuration, voters, route access-control expressions, or authentication internals to guess operation membership.
 
@@ -28,7 +28,7 @@ A component or host may declare a stable public internal-error failure when that
 
 FailureRegistry answers which public failures are known.
 
-OperationFailureInventory answers which of those known failures belong to a specific operation.
+FailureOperationInventory answers which of those known failures belong to a specific operation.
 
 Registration alone never implies operation membership.
 

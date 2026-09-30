@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Failing\DependencyInjection\Compiler;
 
 use App\Failing\DependencyInjection\FailingExtension;
-use App\Failing\Inventory\OperationFailureInventory;
+use App\Failing\Inventory\FailureOperationInventory;
 use App\Failing\Registry\FailureRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,7 +18,7 @@ final class FailureProviderCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(FailureRegistry::class) || !$container->hasDefinition(OperationFailureInventory::class)) {
+        if (!$container->hasDefinition(FailureRegistry::class) || !$container->hasDefinition(FailureOperationInventory::class)) {
             return;
         }
 
@@ -37,7 +37,7 @@ final class FailureProviderCompilerPass implements CompilerPassInterface
         $container->getDefinition(FailureRegistry::class)
             ->setArgument(0, array_values($failureProviders));
 
-        $container->getDefinition(OperationFailureInventory::class)
+        $container->getDefinition(FailureOperationInventory::class)
             ->setArgument(0, array_values($operationProviders));
     }
 }

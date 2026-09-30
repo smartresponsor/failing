@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Failing\Inventory;
 
-use App\Failing\Contract\OperationFailureInventoryProviderInterface;
-use App\Failing\DTO\OperationFailureInventoryDTO;
+use App\Failing\Contract\FailureOperationInventoryProviderInterface;
+use App\Failing\DTO\FailureOperationInventoryDTO;
 use App\Failing\Registry\FailureRegistry;
 
 /**
  * Aggregates operation membership and derives deterministic METHOD + path + status evidence.
  */
-final class OperationFailureInventory
+final class FailureOperationInventory
 {
-    /** @var array<string, OperationFailureInventoryDTO> */
+    /** @var array<string, FailureOperationInventoryDTO> */
     private array $operations = [];
 
-    /** @param iterable<OperationFailureInventoryProviderInterface> $providers */
+    /** @param iterable<FailureOperationInventoryProviderInterface> $providers */
     public function __construct(
         iterable $providers,
         private readonly FailureRegistry $registry,

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Failing\Contract;
 
-use App\Failing\DTO\OperationFailureInventoryDTO;
+use App\Failing\DTO\FailureOperationInventoryDTO;
 
 /**
  * Supplies deterministic operation-to-failure membership declared by a consumer.
  */
-interface OperationFailureInventoryProviderInterface
+interface FailureOperationInventoryProviderInterface
 {
-    /** @return iterable<OperationFailureInventoryDTO> */
+    /** @return iterable<FailureOperationInventoryDTO> */
     public function inventories(): iterable;
 }

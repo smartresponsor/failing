@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Failing\DependencyInjection;
 
 use App\Failing\Contract\FailureProviderInterface;
-use App\Failing\Contract\OperationFailureInventoryProviderInterface;
-use App\Failing\Http\FailureExceptionSubscriber;
-use App\Failing\Http\FailureProblemResponseRenderer;
-use App\Failing\Inventory\OperationFailureInventory;
-use App\Failing\Inventory\OperationFailureInventoryExporter;
+use App\Failing\Contract\FailureOperationInventoryProviderInterface;
+use App\Failing\EventSubscriber\FailureExceptionSubscriber;
+use App\Failing\Renderer\FailureProblemResponseRenderer;
+use App\Failing\Inventory\FailureOperationInventory;
+use App\Failing\Inventory\FailureOperationInventoryExporter;
 use App\Failing\Registry\FailureRegistry;
 use App\Failing\Resolver\FailureResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,13 +30,13 @@ final class FailingExtension extends Extension
     {
         $container->registerForAutoconfiguration(FailureProviderInterface::class)
             ->addTag(self::FAILURE_PROVIDER_TAG);
-        $container->registerForAutoconfiguration(OperationFailureInventoryProviderInterface::class)
+        $container->registerForAutoconfiguration(FailureOperationInventoryProviderInterface::class)
             ->addTag(self::OPERATION_INVENTORY_PROVIDER_TAG);
 
         $container->setDefinition(FailureRegistry::class, new Definition(FailureRegistry::class, [[]]));
         $container->setDefinition(
-            OperationFailureInventory::class,
-            new Definition(OperationFailureInventory::class, [[], new Reference(FailureRegistry::class)]),
+            FailureOperationInventory::class,
+            new Definition(FailureOperationInventory::class, [[], new Reference(FailureRegistry::class)]),
         );
         $container->setDefinition(
             FailureResolver::class,
@@ -51,8 +51,8 @@ final class FailingExtension extends Extension
             ]))->addTag('kernel.event_subscriber'),
         );
         $container->setDefinition(
-            OperationFailureInventoryExporter::class,
-            new Definition(OperationFailureInventoryExporter::class, [new Reference(OperationFailureInventory::class)]),
+            FailureOperationInventoryExporter::class,
+            new Definition(FailureOperationInventoryExporter::class, [new Reference(FailureOperationInventory::class)]),
         );
     }
 

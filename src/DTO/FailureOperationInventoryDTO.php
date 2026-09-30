@@ -9,7 +9,7 @@ use App\Failing\ValueObject\FailureCode;
 /**
  * Deterministic membership of public failures in one external HTTP operation.
  */
-final readonly class OperationFailureInventoryDTO
+final readonly class FailureOperationInventoryDTO
 {
     /** @param list<FailureCode> $failures */
     public function __construct(

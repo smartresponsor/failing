@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\Failing\Tests\Unit;
 
 use App\Failing\Contract\FailureProviderInterface;
-use App\Failing\Contract\OperationFailureInventoryProviderInterface;
+use App\Failing\Contract\FailureOperationInventoryProviderInterface;
 use App\Failing\DTO\FailureDefinitionDTO;
-use App\Failing\DTO\OperationFailureInventoryDTO;
-use App\Failing\Inventory\OperationFailureInventory;
-use App\Failing\Inventory\OperationFailureInventoryExporter;
+use App\Failing\DTO\FailureOperationInventoryDTO;
+use App\Failing\Inventory\FailureOperationInventory;
+use App\Failing\Inventory\FailureOperationInventoryExporter;
 use App\Failing\Registry\FailureRegistry;
 use App\Failing\ValueObject\FailureCode;
 use App\Failing\ValueObject\FailureType;
 use PHPUnit\Framework\TestCase;
 
-final class OperationFailureInventoryExporterTest extends TestCase
+final class FailureOperationInventoryExporterTest extends TestCase
 {
     public function testExporterProducesVersionedDeterministicallySortedEvidence(): void
     {
@@ -38,23 +38,23 @@ final class OperationFailureInventoryExporterTest extends TestCase
             }
         };
 
-        $inventoryProvider = new class implements OperationFailureInventoryProviderInterface {
+        $inventoryProvider = new class implements FailureOperationInventoryProviderInterface {
             public function inventories(): iterable
             {
-                yield new OperationFailureInventoryDTO(
+                yield new FailureOperationInventoryDTO(
                     'POST',
                     '/api/v1/resources',
                     [new FailureCode('invalid_request')],
                 );
 
-                yield new OperationFailureInventoryDTO(
+                yield new FailureOperationInventoryDTO(
                     'GET',
                     '/api/v1/resources/{id}',
                     [new FailureCode('resource_missing')],
                     true,
                 );
 
-                yield new OperationFailureInventoryDTO(
+                yield new FailureOperationInventoryDTO(
                     'DELETE',
                     '/api/v1/resources/{id}/archive',
                     [],
@@ -64,8 +64,8 @@ final class OperationFailureInventoryExporterTest extends TestCase
         };
 
         $registry = new FailureRegistry([$failureProvider]);
-        $inventory = new OperationFailureInventory([$inventoryProvider], $registry);
-        $exporter = new OperationFailureInventoryExporter($inventory);
+        $inventory = new FailureOperationInventory([$inventoryProvider], $registry);
+        $exporter = new FailureOperationInventoryExporter($inventory);
 
         self::assertSame([
             'schemaVersion' => 2,

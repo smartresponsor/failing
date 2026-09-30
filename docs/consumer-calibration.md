@@ -15,7 +15,7 @@ Calibration implementation:
 - consumer-owned type: urn:paying:problem:payment-not-found
 - shared DTO: FailureDefinitionDTO
 - shared runtime index: FailureRegistry
-- shared operation evidence: OperationFailureInventory
+- shared operation evidence: FailureOperationInventory
 - derived evidence: GET /api/payments/{id} + payment.payment_not_found + 404
 
 Result: no Paying-specific branch was added to Failing.
@@ -67,7 +67,7 @@ Calibration implementation:
 
 - SearchFailureProvider preserves `search_index_not_found` as consumer-owned vocabulary;
 - SearchOperationFailureInventoryProvider declares PATCH and DELETE operation membership;
-- shared OperationFailureInventory derives deterministic `METHOD + path + failure code + HTTP status` evidence;
+- shared FailureOperationInventory derives deterministic `METHOD + path + failure code + HTTP status` evidence;
 - the existing controller response behavior remains unchanged.
 
 Validation: 184 tests / 1180 assertions pass, PHPStan reports no errors, CS check passes, and Gating reports 0 failures/warnings.

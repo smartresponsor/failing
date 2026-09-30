@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Failing\Http;
+namespace App\Failing\EventSubscriber;
 
+use App\Failing\Renderer\FailureProblemResponseRenderer;
 use App\Failing\Resolver\FailureResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

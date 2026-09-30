@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Failing\Http;
+namespace App\Failing\Renderer;
 
 use App\Failing\DTO\FailureDefinitionDTO;
 use Symfony\Component\HttpFoundation\JsonResponse;

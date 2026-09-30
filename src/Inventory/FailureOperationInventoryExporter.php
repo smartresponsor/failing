@@ -7,11 +7,11 @@ namespace App\Failing\Inventory;
 /**
  * Produces a deterministic machine-readable runtime failure inventory for external consumers such as Gating.
  */
-final readonly class OperationFailureInventoryExporter
+final readonly class FailureOperationInventoryExporter
 {
     public const int SCHEMA_VERSION = 2;
 
-    public function __construct(private OperationFailureInventory $inventory) {}
+    public function __construct(private FailureOperationInventory $inventory) {}
 
     /**
      * @return array{

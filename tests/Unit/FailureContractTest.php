@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Failing\Tests\Unit;
 
 use App\Failing\Contract\FailureProviderInterface;
-use App\Failing\Contract\OperationFailureInventoryProviderInterface;
+use App\Failing\Contract\FailureOperationInventoryProviderInterface;
 use App\Failing\DTO\FailureDefinitionDTO;
-use App\Failing\DTO\OperationFailureInventoryDTO;
-use App\Failing\Inventory\OperationFailureInventory;
+use App\Failing\DTO\FailureOperationInventoryDTO;
+use App\Failing\Inventory\FailureOperationInventory;
 use App\Failing\Registry\FailureRegistry;
 use App\Failing\Resolver\FailureResolver;
 use App\Failing\ValueObject\FailureCode;
@@ -38,10 +38,10 @@ final class FailureContractTest extends TestCase
         self::assertNotNull($resolved);
         self::assertSame(404, $resolved->httpStatus);
 
-        $inventoryProvider = new class implements OperationFailureInventoryProviderInterface {
+        $inventoryProvider = new class implements FailureOperationInventoryProviderInterface {
             public function inventories(): iterable
             {
-                yield new OperationFailureInventoryDTO(
+                yield new FailureOperationInventoryDTO(
                     'GET',
                     '/api/v1/catalog/{id}',
                     [new FailureCode('catalog.resource_not_found')],
@@ -49,7 +49,7 @@ final class FailureContractTest extends TestCase
             }
         };
 
-        $evidence = (new OperationFailureInventory([$inventoryProvider], $registry))->evidence();
+        $evidence = (new FailureOperationInventory([$inventoryProvider], $registry))->evidence();
         self::assertSame([[
             'method' => 'GET',
             'path' => '/api/v1/catalog/{id}',

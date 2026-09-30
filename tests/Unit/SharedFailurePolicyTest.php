@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Failing\Tests\Unit;
 
 use App\Failing\Contract\FailureProviderInterface;
-use App\Failing\Contract\OperationFailureInventoryProviderInterface;
+use App\Failing\Contract\FailureOperationInventoryProviderInterface;
 use App\Failing\DTO\FailureDefinitionDTO;
-use App\Failing\DTO\OperationFailureInventoryDTO;
-use App\Failing\Inventory\OperationFailureInventory;
+use App\Failing\DTO\FailureOperationInventoryDTO;
+use App\Failing\Inventory\FailureOperationInventory;
 use App\Failing\Registry\FailureRegistry;
 use App\Failing\Resolver\FailureResolver;
 use App\Failing\ValueObject\FailureCode;
@@ -38,10 +38,10 @@ final class SharedFailurePolicyTest extends TestCase
             }
         };
 
-        $inventoryProvider = new class implements OperationFailureInventoryProviderInterface {
+        $inventoryProvider = new class implements FailureOperationInventoryProviderInterface {
             public function inventories(): iterable
             {
-                yield new OperationFailureInventoryDTO(
+                yield new FailureOperationInventoryDTO(
                     'GET',
                     '/api/v1/resources/{id}',
                     [new FailureCode('resource_missing')],
@@ -50,7 +50,7 @@ final class SharedFailurePolicyTest extends TestCase
         };
 
         $registry = new FailureRegistry([$failureProvider]);
-        $inventory = new OperationFailureInventory([$inventoryProvider], $registry);
+        $inventory = new FailureOperationInventory([$inventoryProvider], $registry);
 
         self::assertSame([[
             'method' => 'GET',

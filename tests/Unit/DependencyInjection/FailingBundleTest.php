@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Failing\Tests\Unit\DependencyInjection;
 
 use App\Failing\Contract\FailureProviderInterface;
-use App\Failing\Contract\OperationFailureInventoryProviderInterface;
+use App\Failing\Contract\FailureOperationInventoryProviderInterface;
 use App\Failing\DependencyInjection\FailingExtension;
 use App\Failing\DTO\FailureDefinitionDTO;
-use App\Failing\DTO\OperationFailureInventoryDTO;
+use App\Failing\DTO\FailureOperationInventoryDTO;
 use App\Failing\FailingBundle;
-use App\Failing\Inventory\OperationFailureInventory;
-use App\Failing\Inventory\OperationFailureInventoryExporter;
+use App\Failing\Inventory\FailureOperationInventory;
+use App\Failing\Inventory\FailureOperationInventoryExporter;
 use App\Failing\Registry\FailureRegistry;
 use App\Failing\ValueObject\FailureCode;
 use App\Failing\ValueObject\FailureType;
@@ -35,16 +35,16 @@ final class FailingBundleTest extends TestCase
                 ->setPublic(true),
         );
         $container->setDefinition(
-            ExampleOperationFailureInventoryProvider::class,
-            (new Definition(ExampleOperationFailureInventoryProvider::class))
+            ExampleFailureOperationInventoryProvider::class,
+            (new Definition(ExampleFailureOperationInventoryProvider::class))
                 ->setAutoconfigured(true)
                 ->setPublic(true),
         );
 
         foreach ([
             FailureRegistry::class,
-            OperationFailureInventory::class,
-            OperationFailureInventoryExporter::class,
+            FailureOperationInventory::class,
+            FailureOperationInventoryExporter::class,
         ] as $serviceId) {
             $container->getDefinition($serviceId)->setPublic(true);
         }
@@ -52,10 +52,10 @@ final class FailingBundleTest extends TestCase
         $container->compile();
 
         self::assertTrue($container->getDefinition(ExampleFailureProvider::class)->hasTag(FailingExtension::FAILURE_PROVIDER_TAG));
-        self::assertTrue($container->getDefinition(ExampleOperationFailureInventoryProvider::class)->hasTag(FailingExtension::OPERATION_INVENTORY_PROVIDER_TAG));
+        self::assertTrue($container->getDefinition(ExampleFailureOperationInventoryProvider::class)->hasTag(FailingExtension::OPERATION_INVENTORY_PROVIDER_TAG));
 
-        $exporter = $container->get(OperationFailureInventoryExporter::class);
-        self::assertInstanceOf(OperationFailureInventoryExporter::class, $exporter);
+        $exporter = $container->get(FailureOperationInventoryExporter::class);
+        self::assertInstanceOf(FailureOperationInventoryExporter::class, $exporter);
         self::assertSame([
             'schemaVersion' => 2,
             'coverage' => [[
@@ -87,11 +87,11 @@ final class ExampleFailureProvider implements FailureProviderInterface
     }
 }
 
-final class ExampleOperationFailureInventoryProvider implements OperationFailureInventoryProviderInterface
+final class ExampleFailureOperationInventoryProvider implements FailureOperationInventoryProviderInterface
 {
     public function inventories(): iterable
     {
-        yield new OperationFailureInventoryDTO(
+        yield new FailureOperationInventoryDTO(
             'GET',
             '/api/example/{id}',
             [new FailureCode('example_not_found')],
