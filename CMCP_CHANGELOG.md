@@ -36,3 +36,17 @@ Implementation and verification complete before Git integration.
 - No user-observable UI/navigation/form changes were made; behavioral browser/mobile and screenshot evidence are not applicable.
 - Remaining tail: reconcile Git status, commit coherent in-scope changes, and publish current branch if remote policy allows.
 
+## 2026-09-30 — Engine RC verification closure
+
+- Task: `engine-20260930213807-failing-e228df`.
+- Baseline HEAD: `ee20cb68e59f4def8b30646fa7959e99c8a0bff0` on `master`, clean and aligned with `origin/master`.
+- Upstream RED envelope from 2026-09-29 was consumed as historical evidence; its six findings (Canon001, Canon018, Canon020, Canon025, Canon039, Canon052) are already remediated in the current repository state.
+- Re-read normative Canonization rules Canon001, Canon018, Canon020, Canon025, Canon039, Canon052 and Failing-specific Canon064-066; reviewed Objecting, Cruding, Viewing, Interfacing, Canonization, and Gating package contracts.
+- RC-critical workstream: verify the remediated failure-contract package, deterministic inventory, standalone/bundle mode, PHPUnit coverage contract, and Gating integration without expanding Failing into consumer vocabulary or framework replacement machinery.
+- Growth workstream remains post-RC: richer diagnostics/export metadata and downstream OpenAPI parity integration where owned by downstream contracts.
+- `composer check:failing` GREEN: production manifest validation, anti-wheel guard, CS, PHPStan max, 9 tests / 15 assertions, Gating 0 failed / 0 warning.
+- `composer test:coverage` GREEN under PHP 8.4.13 / Xdebug 3.5.1 and persisted `var/coverage/summary.txt` using PHPUnit path/branch coverage.
+- Reused current post-remediation Inspecting report `D:\\PhpstormProjects\\www\\Inspecting\\.inspecting\\reports\\D--PhpstormProjects-www-Failing-20260930-024007.json`: PHPStan 0 errors, Semgrep 0 findings, overall findingCount 0.
+- No user-observable UI/navigation/form changes are present; behavioral browser/mobile verification and visual screenshots are not applicable.
+- Current task introduced no product/runtime PHP changes; only this orchestration journal entry is added to record the verified RC checkpoint.
+
